@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>SOOP 시청 리캡</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --bg:#f7f8fc;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --shadow:0 18px 50px rgba(0,0,0,.08);
+
+  --step-bg:#FFF3CF;
+  --step-tx:#5E4D18;
+
+  --act-bg:#F6F4FF;
+  --act-btn:#8A80F0;
+  --act-btn-h:#7F75EA;
+  --act-btn-a:#756BE4;
+  --act-glow:rgba(138,128,240,.26);
+
+  --info-bg:#E9F7F4;
+  --info-tx:#0F766E;
+
+  --radius:22px;
+  --radius2:18px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b1020;
+    --card:#0f172a;
+    --text:#e5e7eb;
+    --muted:#a5b4fc;
+    --shadow:0 18px 60px rgba(0,0,0,.55);
+
+    --step-bg:rgba(255,243,207,.16);
+    --step-tx:#f2dea2;
+
+    --act-bg:rgba(138,128,240,.16);
+    --act-btn:#9A92F6;
+    --act-btn-h:#9087F2;
+    --act-btn-a:#867DEE;
+    --act-glow:rgba(154,146,246,.28);
+
+    --info-bg:rgba(15,118,110,.16);
+    --info-tx:#bff7ef;
+  }
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:var(--text);
+}
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:34px 38px 36px;
+  width:620px;
+  max-width:92vw;
+}
+
+h1{
+  margin:0 0 6px;
+  font-size:22px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.steps{
+  background:var(--step-bg);
+  border-radius:16px;
+  padding:12px 18px;
+  margin-bottom:24px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  color:var(--step-tx);
+  white-space:nowrap;
+}
+
+.steps .step{
+  background:rgba(255,255,255,.55);
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:13.5px;
+}
+
+.steps .arrow{
+  font-size:18px;
+  opacity:.6;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.action{
+  background:var(--act-bg);
+  border-radius:var(--radius2);
+  padding:22px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.action button{
+  width:100%;
+  height:72px;
+  border-radius:var(--radius2);
+  border:none;
+  background:var(--act-btn);
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 10px 24px rgba(0,0,0,.08);
+  transition:.18s ease;
+}
+
+.action button:hover{
+  background:var(--act-btn-h);
+  transform:translateY(-2px);
+  box-shadow:0 16px 34px var(--act-glow);
+}
+
+.action button:active{
+  background:var(--act-btn-a);
+  transform:scale(.985);
+}
+
+.info{
+  background:var(--info-bg);
+  border-radius:var(--radius2);
+  padding:18px 20px;
+  font-size:14px;
+  color:var(--info-tx);
+  line-height:1.6;
+  font-weight:800;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <h1>📊 SOOP 시청 리캡</h1>
+
+  <div class="steps">
+    <span class="step">버튼 클릭</span>
+    <span class="arrow">➜</span>
+    <span class="step">주소창 클릭</span>
+    <span class="arrow">➜</span>
+    <span class="step">Ctrl + V → Enter</span>
+  </div>
+
+  <div class="grid">
+    <div class="action">
+      <button id="oneclick">🚀 리캡 실행 준비</button>
+    </div>
+
+    <div class="info">
+      <div>이 버튼은 자동으로</div>
+      <div>• 실행 코드를 복사하고</div>
+      <div>• SOOP 시청 통계 페이지로 이동</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BOOKMARKLET =
+`javascript:(()=>{
+  const ID="__soop_recap_loader__";
+  if(document.getElementById(ID)) return;
+  const s=document.createElement("script");
+  s.id=ID;
+  s.src="https://raw.githubusercontent.com/nyduscanals-max/JS/main/bundle.user.js";
+  s.onerror=()=>alert("SOOP 리캡 로드 실패");
+  document.head.appendChild(s);
+})()`;
+
+document.getElementById("oneclick").onclick = async () => {
+  try{
+    await navigator.clipboard.writeText(BOOKMARKLET);
+    location.href="https://m.sooplive.co.kr/statistics/a/watch/";
+  }catch(e){
+    alert("클립보드 복사 실패");
+  }
+};
+</script>
+</body>
+</html>
